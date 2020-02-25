@@ -3,3 +3,8 @@
 _pycache_
 venv
 charity_donation/local_settings.py
+__pycache__/
+charity_donation/__pycache__/
+portfolio_lab/__pycache__/
+
+
