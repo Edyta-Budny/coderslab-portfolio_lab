@@ -1,0 +1,5 @@
+.idea
+.DS_Store
+_pycache_
+venv
+charity_donation/local_settings.py
