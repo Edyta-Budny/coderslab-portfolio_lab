@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'charity_donation.apps.CharityDonationConfig',
-    'user',
+    'auth_user',
 ]
 
 MIDDLEWARE = [
@@ -56,8 +56,7 @@ ROOT_URLCONF = 'portfolio_lab.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'charity_donation/templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'charity_donation/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,6 +71,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'portfolio_lab.wsgi.application'
 
+AUTH_USER_MODEL = 'auth_user.User'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -82,7 +82,6 @@ except ModuleNotFoundError:
     print("Brak konfiguracji bazy danych w pliku local_settings.py!")
     print("Uzupełnij dane i spróbuj ponownie!")
     exit(0)
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
