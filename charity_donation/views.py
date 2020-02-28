@@ -1,21 +1,22 @@
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render
 from django.views import View
-from charity_donation.models import Donation
+from charity_donation.models import Donation, Institution
+from django.db.models import Count, Sum
 
 
 class LandingPageView(View):
     def get(self, request):
-        sack_counter = 0
-        supported_institution = []
-        supported_institution_counter = 0
-        donations = Donation.objects.all()
-        for donation in donations:
-            sack_counter += donation.quantity
-            if donation.institution.name not in supported_institution:
-                supported_institution.append(donation.institution.name)
-                supported_institution_counter += len(supported_institution)
+        sack_counter = Donation.objects.aggregate(sum_q=Sum('quantity'))["sum_q"]
+        supported_institution = Institution.objects.aggregate(count_q=Count('name'))["count_q"]
+        foundation_list = Institution.objects.filter(type="F")
+        organization_list = Institution.objects.filter(type="NO")
+        collection_list = Institution.objects.filter(type="LC")
         return render(request, "html/index.html", {"sack_counter": sack_counter,
-                                                   "supported_institution_counter": supported_institution_counter})
+                                                   "supported_institution_counter": supported_institution,
+                                                   "foundations": foundation_list,
+                                                   "organizations": organization_list,
+                                                   "collections": collection_list})
 
 
 class AddDonationView(View):
