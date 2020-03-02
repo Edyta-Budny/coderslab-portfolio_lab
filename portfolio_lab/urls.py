@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.urls import path
 
-from charity_donation.views import LandingPageView, AddDonationView, LoginView, RegisterView
+from charity_donation.views import LandingPageView, AddDonationView, LoginView
+from auth_user.views import RegisterView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
