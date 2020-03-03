@@ -1,14 +1,12 @@
 from django import forms
-# from charity_donation.models import
 from django.core.exceptions import ValidationError
-
 from auth_user.models import User
 
 
 def ThisEmailAlreadyExistsValidator(value):
-    emails = User.objects.all().filter(email=value)
+    emails = User.objects.filter(email=value)
     if emails:
-        raise ValidationError("Ten email już istanieje.")
+        raise ValidationError("Ten email już istanieje!")
 
 
 class RegisterForm(forms.Form):
@@ -26,3 +24,8 @@ class RegisterForm(forms.Form):
         password_repeated = cleaned_data.get('repeated_password')
         if password != password_repeated:
             raise forms.ValidationError("Sprobuj ponownie wpisac haslo!")
+
+
+class LoginForm(forms.Form):
+    username = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'Email'}), label=False)
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Hasło'}), label=False)

@@ -3,7 +3,7 @@
 {% block content %}
     <section class="login-page">
       <h2>Załóż konto</h2>
-      <form method="post">
+      <form method="post" action="{% url 'register' %}">
         {% csrf_token %}
         <div class="form-group">
           {{ form.first_name }}
