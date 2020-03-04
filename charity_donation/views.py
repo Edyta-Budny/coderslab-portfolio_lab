@@ -1,7 +1,8 @@
+from django.db.models import Count, Sum
 from django.shortcuts import render
 from django.views import View
+
 from charity_donation.models import Donation, Institution
-from django.db.models import Count, Sum
 
 
 class LandingPageView(View):
@@ -22,4 +23,3 @@ class LandingPageView(View):
 class AddDonationView(View):
     def get(self, request):
         return render(request, "html/form.html")
-

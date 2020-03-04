@@ -1,7 +1,8 @@
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.views import View
-from auth_user.forms import RegisterForm, LoginForm
+
+from auth_user.forms import LoginForm, RegisterForm
 from auth_user.models import User
 
 
@@ -39,11 +40,7 @@ class LoginView(View):
                 login(request, user)
                 return redirect("main")
             else:
-                if len(User.objects.filter(username=username)) != 0:
-                    error = "Błędne hasło"
-                    return render(request, "html/login.html", {"form": form, "error": error})
-                else:
-                    return redirect("register")
+                return redirect("register")
         else:
             return render(request, "html/login.html", {"form": form})
 

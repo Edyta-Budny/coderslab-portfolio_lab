@@ -9,8 +9,8 @@
       {{ form.username }}
     </div>
     <div class="form-group">
+      {{ form.non_field_errors }}
       {{ form.password }}
-      {{ error }}
       <a href="#" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>
     </div>
 

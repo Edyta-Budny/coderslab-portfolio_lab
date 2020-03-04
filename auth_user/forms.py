@@ -1,12 +1,13 @@
 from django import forms
 from django.core.exceptions import ValidationError
+
 from auth_user.models import User
 
 
 def ThisEmailAlreadyExistsValidator(value):
     emails = User.objects.filter(email=value)
     if emails:
-        raise ValidationError("Ten email już istanieje!")
+        raise ValidationError("Email lub hasło są niedostępne!")
 
 
 class RegisterForm(forms.Form):
@@ -29,3 +30,9 @@ class RegisterForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'Email'}), label=False)
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Hasło'}), label=False)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        username = cleaned_data.get('username')
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError("Błędny email lub hasło!")
