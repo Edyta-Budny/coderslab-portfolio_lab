@@ -36,5 +36,5 @@ class LoginForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         username = cleaned_data.get('username')
-        if User.objects.filter(username=username).exists():
+        if User.objects.filter(username=username).count() != 0:
             raise forms.ValidationError(_("The email or password you entered isn't correct. Try entering it again."))
