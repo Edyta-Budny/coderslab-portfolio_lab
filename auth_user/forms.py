@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth import authenticate
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
@@ -30,11 +31,13 @@ class RegisterForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-    username = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': _('Email')}), label=False)
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': _('Password')}), label=False)
+    username = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': _('Email')}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': _('Password')}))
 
     def clean(self):
         cleaned_data = super().clean()
         username = cleaned_data.get('username')
-        if User.objects.filter(username=username).count() != 0:
+        password = cleaned_data.get('password')
+        user = authenticate(username=username, password=password)
+        if user is None:
             raise forms.ValidationError(_("The email or password you entered isn't correct. Try entering it again."))

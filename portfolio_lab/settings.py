@@ -127,6 +127,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+EMAIL_HOST = "localhost"
+EMAIL_PORT = 1025
 
 try:
     from charity_donation.local_settings import *
