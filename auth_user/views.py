@@ -9,7 +9,7 @@ from auth_user.models import User
 class RegisterView(View):
     def get(self, request):
         form = RegisterForm()
-        return render(request, "html/register.html", {"form": form})
+        return render(request, "register.html", {"form": form})
 
     def post(self, request):
         form = RegisterForm(request.POST)
@@ -22,13 +22,13 @@ class RegisterView(View):
                                             password=password)
             return redirect("login")
         else:
-            return render(request, "html/register.html", {"form": form})
+            return render(request, "register.html", {"form": form})
 
 
 class LoginView(View):
     def get(self, request):
         form = LoginForm()
-        return render(request, "html/login.html", {"form": form})
+        return render(request, "login.html", {"form": form})
 
     def post(self, request):
         form = LoginForm(request.POST)
@@ -42,7 +42,7 @@ class LoginView(View):
             else:
                 return redirect("register")
         else:
-            return render(request, "html/login.html", {"form": form})
+            return render(request, "login.html", {"form": form})
 
 
 class LogoutView(View):

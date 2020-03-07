@@ -1,20 +1,34 @@
-{% extends "html/base.html" %}
-{% block login %}
-<header class="header--form-page">
-  <nav class="container container--70">
-    <ul class="nav--actions">
-      <li class="logged-user">
-        Witaj Agata
-        <ul class="dropdown">
-          <li><a href="#">Profil</a></li>
-          <li><a href="#">Moje zbiórki</a></li>
-          <li><a href="#">Wyloguj</a></li>
+{% extends "base.html" %}
+{% block title %}
+    <title>Donations form</title>
+{% endblock title %}
+{% block header %}
+    <header class="header--form-page">
+      <nav class="container container--70">
+        <ul class="nav--actions">
+          <li class="logged-user">
+            Witaj {{user.first_name}}
+            <ul class="dropdown">
+              <li><a href="#">Profil</a></li>
+              <li><a href="#">Ustawienia</a></li>
+              <li><a href="{% url "logout" %}">Wyloguj</a></li>
+            </ul>
+          </li>
         </ul>
-      </li>
-    </ul>
-{% endblock login %}
+
+      <ul>
+          <li><a href="{% url "main" %}" class="btn btn--without-border active">Start</a></li>
+          <li><a href="{% url "main" %}#steps" class="btn btn--without-border">O co chodzi?</a></li>
+          <li><a href="{% url "main" %}#about-us" class="btn btn--without-border">O nas</a></li>
+          <li><a href="{% url "main" %}#help" class="btn btn--without-border">Fundacje i organizacje</a></li>
+          <li><a href="{% url "donation" %}" class="btn btn--without-border">Przekaż dary</a></li>
+          <li><a href="#contact" class="btn btn--without-border">Kontakt</a></li>
+      </ul>
+    </nav>
 {% block slogan %}
-<div class="slogan--item">
+  <div class="slogan container container--90">
+
+  <div class="slogan--item">
   <h1>
     Oddaj rzeczy, których już nie chcesz<br />
     <span class="uppercase">potrzebującym</span>
@@ -38,7 +52,10 @@
     </ul>
   </div>
 </div>
+</div>
 {% endblock slogan %}
+    </header>
+{% endblock header %}
 {% block content %}
   <section class="form--steps">
   <div class="form--steps-instructions">
@@ -68,55 +85,15 @@
       <div data-step="1" class="active">
         <h3>Zaznacz co chcesz oddać:</h3>
 
+        {% for category in categories %}
         <div class="form-group form-group--checkbox">
           <label>
-            <input
-              type="checkbox"
-              name="categories"
-              value="clothes-to-use"
-            />
+            <input type="checkbox" name="categories" value={{ category.id }}/>
             <span class="checkbox"></span>
-            <span class="description"
-              >ubrania, które nadają się do ponownego użycia</span
-            >
+            <span class="description">{{ category }}</span>
           </label>
         </div>
-
-        <div class="form-group form-group--checkbox">
-          <label>
-            <input
-              type="checkbox"
-              name="categories"
-              value="clothes-useless"
-            />
-            <span class="checkbox"></span>
-            <span class="description">ubrania, do wyrzucenia</span>
-          </label>
-        </div>
-
-        <div class="form-group form-group--checkbox">
-          <label>
-            <input type="checkbox" name="categories" value="toys" />
-            <span class="checkbox"></span>
-            <span class="description">zabawki</span>
-          </label>
-        </div>
-
-        <div class="form-group form-group--checkbox">
-          <label>
-            <input type="checkbox" name="categories" value="books" />
-            <span class="checkbox"></span>
-            <span class="description">książki</span>
-          </label>
-        </div>
-
-        <div class="form-group form-group--checkbox">
-          <label>
-            <input type="checkbox" name="categories" value="other" />
-            <span class="checkbox"></span>
-            <span class="description">inne</span>
-          </label>
-        </div>
+        {% endfor %}
 
         <div class="form-group form-group--buttons">
           <button type="button" class="btn next-step">Dalej</button>

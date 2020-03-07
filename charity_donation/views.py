@@ -2,7 +2,7 @@ from django.db.models import Count, Sum
 from django.shortcuts import render
 from django.views import View
 
-from charity_donation.models import Donation, Institution
+from charity_donation.models import Category, Donation, Institution
 
 
 class LandingPageView(View):
@@ -14,7 +14,7 @@ class LandingPageView(View):
         collection_list = Institution.objects.filter(type=Institution.LOCAL_COLLECTION)
         return render(
             request,
-            "html/index.html",
+            "base.html",
             {
                 "sack_counter": sack_counter,
                 "supported_institution_counter": supported_institution,
@@ -27,4 +27,5 @@ class LandingPageView(View):
 
 class AddDonationView(View):
     def get(self, request):
-        return render(request, "html/form.html")
+        categories = Category.objects.all()
+        return render(request, "form.html", {"categories": categories})
