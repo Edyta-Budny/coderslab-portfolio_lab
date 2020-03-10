@@ -49,3 +49,8 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect("main")
+
+
+class MainPageUserView(View):
+    def get(self, request):
+        return render(request, "profile.html")
