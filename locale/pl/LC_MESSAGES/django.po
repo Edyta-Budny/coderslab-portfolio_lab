@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-10 17:09+0100\n"
+"POT-Creation-Date: 2020-03-10 18:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -127,17 +127,21 @@ msgstr "godzina odbioru"
 msgid "pick up comment"
 msgstr "dodatkowy komentarz"
 
-#: charity_donation/models.py:50
+#: charity_donation/models.py:56
 msgid "user"
 msgstr "użytkownik"
 
-#: charity_donation/models.py:53
+#: charity_donation/models.py:60
 msgid "donation"
 msgstr "darowizna"
 
-#: charity_donation/models.py:54
+#: charity_donation/models.py:61
 msgid "donations"
 msgstr "darowizny"
+
+#: charity_donation/models.py:64
+msgid "Donation for"
+msgstr "Darowizna na rzecz"
 
 #: venv/lib/python3.7/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"
@@ -1313,3 +1317,7 @@ msgstr ""
 #: venv/lib/python3.7/site-packages/django/views/templates/default_urlconf.html:408
 msgid "Connect, get help, or contribute"
 msgstr ""
+
+#, python-brace-format
+#~ msgid "Donation for {self.institution}"
+#~ msgstr "Darowizna na rzecz {self.institution}"

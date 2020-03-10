@@ -61,4 +61,4 @@ class Donation(models.Model):
         verbose_name_plural = _('donations')
 
     def __str__(self):
-        return f'Darowizna dla instytucji {self.institution}'
+        return _('Donation for') + f' {self.institution}'
