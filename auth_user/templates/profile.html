@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load i18n %}
 {% block title %}
     <title>Profile view</title>
 {% endblock title %}
@@ -58,7 +57,7 @@
             </div>
 
             <div class="col">
-              <div class="text"> Termin przekazania: {{ donation.pick_up_date|date:"d-m-Y" }}, godzina: {{ donation.pick_up_time }}</div>
+              <div class="text">Termin przekazania: {{ donation.pick_up_date|date:"d-m-Y" }}, godzina: {{ donation.pick_up_time }}</div>
               <div class="text">Liczba przekazanych worków: {{ donation.quantity }}</div>
             </div>
           </li>

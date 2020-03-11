@@ -129,8 +129,3 @@ STATICFILES_DIRS = [
 
 EMAIL_HOST = "localhost"
 EMAIL_PORT = 1025
-
-try:
-    from charity_donation.local_settings import *
-except ImportError:
-    pass
