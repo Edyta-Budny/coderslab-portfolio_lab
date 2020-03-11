@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% block title %}
     <title>Profile view</title>
 {% endblock title %}
@@ -31,10 +32,39 @@
     </header>
 {% endblock header %}
 {% block content %}
-<section class="login-page">
-  <h2>Twoje dane</h2>
-  <div><h1>Imię: {{ user.first_name }}</h1></div>
-  <div><h1>Nazwisko: {{ user.last_name }}</h1></div>
-  <div><h1>Email: {{ user.email }}</h1></div>
-</section>
+    <section id="help" class="help">
+      <h2>Moje konto</h2>
+
+      <ul class="help--buttons">
+        <li data-id="1"><a href="#" class="btn btn--without-border active">Moje dane</a></li>
+        <li data-id="2"><a href="#" class="btn btn--without-border">Moje darowizny</a></li>
+      </ul>
+
+      <!-- SLIDE 1 -->
+      <div class="help--slides active" data-id="1">
+        <p>Imię: {{ user.first_name }}</p>
+        <p>Nazwisko: {{ user.last_name }}</p>
+        <p>Adres email: {{ user.email}}</p>
+      </div>
+
+      <!-- SLIDE 2 -->
+      <div class="help--slides" data-id="2">
+        <ul class="help--slides-items">
+          {% for donation in donations %}
+          <li>
+            <div class="col">
+              <div class="title">Wsparłaś/eś "{{ donation.institution }}"</div>
+              <div class="text">Przyczyniłaś/eś się do realizacji celu jakim jest {{ donation.institution.description }}</div>
+            </div>
+
+            <div class="col">
+              <div class="text"> Termin przekazania: {{ donation.pick_up_date|date:"d-m-Y" }}, godzina: {{ donation.pick_up_time }}</div>
+              <div class="text">Liczba przekazanych worków: {{ donation.quantity }}</div>
+            </div>
+          </li>
+          {% endfor %}
+          <li>
+        </ul>
+      </div>
+    </section>
 {% endblock content %}
