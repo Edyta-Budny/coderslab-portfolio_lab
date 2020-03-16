@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function (qualifiedName, value) {
   /**
    * HomePage - Help section
    */
@@ -79,8 +79,6 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$el = $el;
       this.options = [...$el.children];
       this.init();
-
-      console.log(this.options)
     }
 
     init() {
@@ -175,10 +173,6 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step = form.querySelector(".form--steps-counter span");
       this.currentStep = 1;
 
-     this.formData = {
-       categories: [],
-     };
-
       this.$stepInstructions = form.querySelectorAll(".form--steps-instructions p");
       const $stepForms = form.querySelectorAll("form > div");
       this.slides = [...this.$stepInstructions, ...$stepForms];
@@ -241,59 +235,69 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
 
-      // TODO: show organizations based on checked categories in form
-
-
-      let btnFirst = document.getElementById('btn next-step-1');
+      /**
+       * show organizations based on checked categories in form
+        */
+      let btnFirst = document.getElementById('btn next-step');
         btnFirst.addEventListener("click", ev => {
         let categories = $('input[name="categories"]:checked');
         let categoriesValues = [];
 
         for (let i = 0; i < categories.length; i++) {
           categoriesValues.push(categories[i].value);
-          this.formData.categories.push(categories[i].nextElementSibling.nextElementSibling.textContent);
-        }
-
-        let organizations = $('input[name="organizations"]');
-
-          for (let j = 0; j < organizations.length; j++) {
-            let organizationValue = organizations[j].classList;
-              if ((categoriesValues.every( categoryValues => organizationValue.contains(categoryValues))) === true) {
-                organizations[j].parentElement.parentElement.style.display = "block";
-              } else {
-                organizations[j].parentElement.parentElement.style.display = "none";
-              }
           }
-    });
 
 
+          let organizations = $('input[name="organizations"]');
 
-      // TODO: get data from inputs and show them in summary
+            for (let j = 0; j < organizations.length; j++) {
+              let organizationValue = organizations[j].classList;
+                if ((categoriesValues.every( categoryValues => organizationValue.contains(categoryValues))) === true) {
+                  organizations[j].parentElement.parentElement.style.display = "block";
+                } else {
+                  organizations[j].parentElement.parentElement.style.display = "none";
+                }
+            }
+      });
+
+
+      /**
+       *  get data from inputs and show them in summary
+       */
 
       let btnSummary = document.getElementById('btn next-summary');
       btnSummary.addEventListener("click", ev => {
-        let category = this.formData.categories;
-        let quantity = $('input[name="bags"]').val();
+        let category = $('input[name="categories"]:checked').next().next().text();
+        let quantity = $('input[name="quantity"]').val();
         let organization = $('input[name="organizations"]:checked').next().next().children(".title").text();
         let address = $('input[name="address"]').val();
         let city = $('input[name="city"]').val();
-        let postcode = $('input[name="postcode"]').val();
-        let phone = $('input[name="phone"]').val();
-        let data = $('input[name="data"]').val();
-        let time = $('input[name="time"]').val();
-        let comment = $('textarea[name="more_info"]').val();
+        let postcode = $('input[name="zip_code"]').val();
+        let phone = $('input[name="phone_number"]').val();
+        let data = $('input[name="pick_up_date"]').val();
+        let time = $('input[name="pick_up_time"]').val();
+        let comment = $('textarea[name="pick_up_comment"]').val();
 
-        let sacks = `${quantity} worków, a w nich: ${category}`;
-        let institution = `Dla ${organization}`;
-        $("#sacks").text(sacks);
-        $("#institution").text(institution);
-        $("#address").text(address);
-        $("#city").text(city);
-        $("#zip_code").text(postcode);
-        $("#phone_number").text(phone);
-        $("#pick_up_date").text(data);
-        $("#pick_up_time").text(time);
-        $("#pick_up_comment").text(comment);
+        let bag_comment = " ";
+
+          if (quantity === 1) {
+            bag_comment = `${quantity} worek, a w nich: ${category}`
+          } if (1 < quantity < 5) {
+            bag_comment = `${quantity} worki, a w nich: ${category}`
+          } if (quantity > 4) {
+            bag_comment = `${quantity} worków, a w nich: ${category}`
+          }
+
+          let institution = `Dla ${organization}`;
+          $("#bags").text(bag_comment);
+          $("#institution").text(institution);
+          $("#address").text(address);
+          $("#city").text(city);
+          $("#zip_code").text(postcode);
+          $("#phone_number").text(phone);
+          $("#pick_up_date").text(data);
+          $("#pick_up_time").text(time);
+          $("#pick_up_comment").text(comment);
       })
     }
 
@@ -306,6 +310,25 @@ document.addEventListener("DOMContentLoaded", function() {
       e.preventDefault();
       this.currentStep++;
       this.updateForm();
+      $.ajax({
+        url: "http://127.0.0.1:8000/add_donation/",
+        type: "post",
+        dataType: "json",
+        data: {
+          'quantity': $('input[name="quantity"]').val(),
+          'address': $('input[name="address"]').val(),
+          'phone_number': $('input[name="phone_number"]').val(),
+          'city': $('input[name="city"]').val(),
+          'zip_code': $('input[name="zip_code"]').val(),
+          'pick_up_date': $('input[name="pick_up_date"]').val(),
+          'pick_up_time': $('input[name="pick_up_time"]').val(),
+          'pick_up_comment': $('textarea[name="pick_up_comment"]').val(),
+          'institution_id': $('input[name="organizations"]:checked').val(),
+          'categories_id': $('input[name="categories"]:checked').val(),
+          'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
+        }
+      });
+      location.href="/confirmation"
     }
   }
   const form = document.querySelector(".form--steps");
@@ -313,6 +336,3 @@ document.addEventListener("DOMContentLoaded", function() {
     new FormSteps(form);
   }
 });
-
-
-

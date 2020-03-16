@@ -10,11 +10,6 @@
     <title>Main page</title>
     {% endblock title %}
     <link rel="stylesheet" href="{% static "css/style.css" %}" />
-    <script
-            src="https://code.jquery.com/jquery-3.4.1.min.js"
-            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-            crossorigin="anonymous">
-    </script>
 </head>
 {% endblock head %}
 <body>
@@ -240,6 +235,8 @@
 {% endblock footer %}
 
 {% block script %}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+    </script>
     <script src={% static "js/app.js" %}></script>
 {% endblock script %}
   </body>

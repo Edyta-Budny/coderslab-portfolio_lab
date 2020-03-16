@@ -80,7 +80,8 @@
   <div class="form--steps-container">
     <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
-    <form action="form-confirmation.html" method="post">
+    <form method="post" action="form-confirmation.html">
+    {% csrf_token %}
       <!-- STEP 1: class .active is switching steps -->
       <div data-step="1" class="active">
         <h3>Zaznacz co chcesz oddać:</h3>
@@ -88,15 +89,15 @@
         {% for category in categories %}
         <div class="form-group form-group--checkbox">
           <label>
-            <input type="checkbox" name="categories" value="{{ category.id }}"/>
+            <input type="checkbox" name="categories" value="{{ category.pk }}" />
             <span class="checkbox"></span>
-            <span class="description">{{ category }}</span>
+            <span class="description"> {{ category }}</span>
           </label>
         </div>
         {% endfor %}
 
         <div class="form-group form-group--buttons">
-          <button id="btn next-step-1" type="button" class="btn next-step">Dalej</button>
+          <button type="button" class="btn next-step">Dalej</button>
         </div>
       </div>
 
@@ -105,15 +106,12 @@
         <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>
 
         <div class="form-group form-group--inline">
-          <label>
-            Liczba 60l worków:
-            <input type="number" name="bags" step="1" min="1" />
-          </label>
+          <label>{{ form.quantity.label }}{{ form.quantity }}</label>
         </div>
 
         <div class="form-group form-group--buttons">
           <button type="button" class="btn prev-step">Wstecz</button>
-          <button type="button" class="btn next-step">Dalej</button>
+          <button id="btn next-step" type="button" class="btn next-step">Dalej</button>
         </div>
       </div>
 
@@ -125,13 +123,11 @@
         <div class="form-group form-group--checkbox">
           <label>
             <input class="{% for category in institution.categories.all %}{{ category.id }} {% endfor %}"
-                   type="radio" name="organizations" value="{{ institution.id }}"  />
+                   type="radio" name="organizations" value="{{ institution.pk }}"  />
             <span class="checkbox radio"></span>
             <span class="description">
-              <div class="title">{{ institution.get_type_display }} “{{ institution }}”</div>
-              <div class="subtitle">
-                Cel i misja: {{ institution.description }}
-              </div>
+              <div class="title"> {{ institution.get_type_display|capfirst }} “{{ institution }}” </div>
+              <div class="subtitle">Cel i misja: {{ institution.description }}</div>
             </span>
           </label>
         </div>
@@ -143,7 +139,7 @@
         </div>
       </div>
 
-      <!-- STEP 5 -->
+      <!-- STEP 4 -->
       <div data-step="4">
         <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
 
@@ -151,41 +147,34 @@
           <div class="form-section--column">
             <h4>Adres odbioru</h4>
             <div class="form-group form-group--inline">
-              <label> Ulica <input type="text" name="address" /> </label>
+              <label>{{ form.address.label }}{{ form.address }}</label>
             </div>
 
             <div class="form-group form-group--inline">
-              <label> Miasto <input type="text" name="city" /> </label>
+              <label>{{ form.city.label }}{{ form.city }}</label>
             </div>
 
             <div class="form-group form-group--inline">
-              <label>
-                Kod pocztowy <input type="text" name="postcode" />
-              </label>
+              <label>{{ form.zip_code.label }}{{ form.zip_code }}</label>
             </div>
 
             <div class="form-group form-group--inline">
-              <label>
-                Numer telefonu <input type="phone" name="phone" />
-              </label>
+              <label>{{ form.phone_number.label }}{{ form.phone_number }}</label>
             </div>
           </div>
 
           <div class="form-section--column">
             <h4>Termin odbioru</h4>
             <div class="form-group form-group--inline">
-              <label> Data <input type="date" name="data" /> </label>
+              <label>{{ form.pick_up_date.label }}{{ form.pick_up_date }}</label>
             </div>
 
             <div class="form-group form-group--inline">
-              <label> Godzina <input type="time" name="time" /> </label>
+              <label>{{ form.pick_up_time.label }}{{ form.pick_up_time }}</label>
             </div>
 
             <div class="form-group form-group--inline">
-              <label>
-                Uwagi dla kuriera
-                <textarea name="more_info" rows="5"></textarea>
-              </label>
+              <label>{{ form.pick_up_comment.label }}{{ form.pick_up_comment }}</label>
             </div>
           </div>
         </div>
@@ -195,7 +184,7 @@
         </div>
       </div>
 
-      <!-- STEP 6 -->
+      <!-- STEP 5 -->
       <div data-step="5">
         <h3>Podsumowanie Twojej darowizny</h3>
 
@@ -205,7 +194,7 @@
             <ul>
               <li>
                 <span class="icon icon-bag"></span>
-                <span id="sacks" class="summary--text"></span>
+                <span id="bags" class="summary--text"></span>
               </li>
 
               <li>

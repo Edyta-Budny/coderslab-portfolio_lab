@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-05 12:06+0100\n"
+"POT-Creation-Date: 2020-03-16 22:27+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,37 +20,70 @@ msgstr ""
 "%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
 "%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#: auth_user/forms.py:11
+#: auth_user/forms.py:12
 msgid "Email or password is not available."
 msgstr "Adres email lub hasło nie są dostępne."
 
-#: auth_user/forms.py:15
+#: auth_user/forms.py:16
 msgid "First name"
 msgstr "Imię"
 
-#: auth_user/forms.py:16
+#: auth_user/forms.py:17
 msgid "Last name"
 msgstr "Nazwisko"
 
-#: auth_user/forms.py:19 auth_user/forms.py:33
+#: auth_user/forms.py:20 auth_user/forms.py:34
 msgid "Email"
 msgstr "Adres email"
 
-#: auth_user/forms.py:21 auth_user/forms.py:34
+#: auth_user/forms.py:22 auth_user/forms.py:35
 msgid "Password"
 msgstr "Hasło"
 
-#: auth_user/forms.py:22
+#: auth_user/forms.py:23
 msgid "Confirmation"
 msgstr "Potwierdź hasło"
 
-#: auth_user/forms.py:29
+#: auth_user/forms.py:30
 msgid "Try entering the password again."
 msgstr "Spróbuj ponowanie wpisać hasło."
 
-#: auth_user/forms.py:40
+#: auth_user/forms.py:43
 msgid "The email or password you entered isn't correct. Try entering it again."
 msgstr "Adres email lub hasło nie są poprawne. Spróbj ponowanie."
+
+#: charity_donation/forms.py:6
+msgid "Number of 60 liter bags"
+msgstr "Liczba 60l worków"
+
+#: charity_donation/forms.py:7
+msgid "Address"
+msgstr "Ulica"
+
+#: charity_donation/forms.py:8
+msgid "City"
+msgstr "Miasto"
+
+#: charity_donation/forms.py:9
+msgid "Postcode"
+msgstr "Kod pocztowy"
+
+#: charity_donation/forms.py:10
+msgid "Phone number"
+msgstr "Numer telefonu"
+
+#: charity_donation/forms.py:11
+msgid "Data"
+msgstr "Data"
+
+#: charity_donation/forms.py:12
+#: venv/lib/python3.7/site-packages/django/db/models/fields/__init__.py:2108
+msgid "Time"
+msgstr "Godzina"
+
+#: charity_donation/forms.py:13
+msgid "Comment"
+msgstr "Uwagi dla kuriera"
 
 #: venv/lib/python3.7/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"
@@ -410,10 +443,6 @@ msgstr ""
 msgid ""
 "'%(value)s' value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
 "invalid time."
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/django/db/models/fields/__init__.py:2108
-msgid "Time"
 msgstr ""
 
 #: venv/lib/python3.7/site-packages/django/db/models/fields/__init__.py:2234

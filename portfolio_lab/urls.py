@@ -3,7 +3,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 
 from auth_user.views import LoginView, LogoutView, RegisterView
-from charity_donation.views import AddDonationView, LandingPageView
+from charity_donation.views import AddDonationView, LandingPageView, ConfirmationView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -17,4 +17,5 @@ urlpatterns = [
          name="password_reset_confirm"),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name="password_reset_done"),
     path('password_reset/complete', auth_views.PasswordResetCompleteView.as_view(), name="password_reset_complete"),
+    path('confirmation/', ConfirmationView.as_view(), name="confirmation"),
 ]

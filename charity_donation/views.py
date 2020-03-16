@@ -1,7 +1,9 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Sum
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 
+from charity_donation.forms import DonationForm
 from charity_donation.models import Category, Donation, Institution
 
 
@@ -25,15 +27,41 @@ class LandingPageView(View):
         )
 
 
-class AddDonationView(View):
+class AddDonationView(LoginRequiredMixin, View):
     def get(self, request):
-        categories = Category.objects.all()
+        form = DonationForm()
+        categories = Category.objects.all().order_by('id')
         institutions = Institution.objects.all()
         return render(
             request,
             "form.html",
             {
+                "form": form,
                 "categories": categories,
                 "institutions": institutions,
             }
         )
+
+    def post(self, request):
+        quantity = request.POST["quantity"]
+        address = request.POST["address"]
+        phone_number = request.POST["phone_number"]
+        city = request.POST["city"]
+        zip_code = request.POST["zip_code"]
+        pick_up_date = request.POST["pick_up_date"]
+        pick_up_time = request.POST["pick_up_time"]
+        pick_up_comment = request.POST["pick_up_comment"]
+        institution = request.POST["institution_id"]
+        categories = request.POST["categories_id"]
+        user = request.user.id
+        donation = Donation.objects.create(quantity=quantity, address=address, phone_number=phone_number,
+                                           city=city, zip_code=zip_code, pick_up_date=pick_up_date,
+                                           pick_up_time=pick_up_time, pick_up_comment=pick_up_comment,
+                                           institution_id=institution, user_id=user)
+        donation.categories.add(categories)
+        return render(request, "form-confirmation.html")
+
+
+class ConfirmationView(View):
+    def get(self, request):
+        return render(request, "form-confirmation.html")
