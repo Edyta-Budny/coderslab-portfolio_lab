@@ -4,6 +4,7 @@ from django.views import View
 
 from auth_user.forms import LoginForm, RegisterForm
 from auth_user.models import User
+from charity_donation.models import Donation
 
 
 class RegisterView(View):
@@ -49,3 +50,9 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect("main")
+
+
+class ProfileView(View):
+    def get(self, request):
+        donations = Donation.objects.filter(user=request.user)
+        return render(request, "profile.html", {"donations": donations})

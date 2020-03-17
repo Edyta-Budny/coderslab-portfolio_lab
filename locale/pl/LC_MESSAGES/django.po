@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-16 22:27+0100\n"
+"POT-Creation-Date: 2020-03-17 16:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,6 +84,95 @@ msgstr "Godzina"
 #: charity_donation/forms.py:13
 msgid "Comment"
 msgstr "Uwagi dla kuriera"
+
+#: charity_donation/models.py:7 charity_donation/models.py:26
+msgid "name"
+msgstr "Nazwisko"
+
+#: charity_donation/models.py:10
+msgid "category"
+msgstr "kategoria"
+
+#: charity_donation/models.py:11 charity_donation/models.py:29
+#: charity_donation/models.py:41
+msgid "categories"
+msgstr "kategorie"
+
+#: charity_donation/models.py:22
+msgid "foundation"
+msgstr "fundacja"
+
+#: charity_donation/models.py:23
+msgid "nongovernmental organization"
+msgstr "organizacja pozarządowa"
+
+#: charity_donation/models.py:24
+msgid "local collection"
+msgstr "zbiórka lokalna"
+
+#: charity_donation/models.py:27
+msgid "description"
+msgstr "opis"
+
+#: charity_donation/models.py:28
+msgid "type"
+msgstr "typ"
+
+#: charity_donation/models.py:32 charity_donation/models.py:42
+msgid "institution"
+msgstr "instytucja"
+
+#: charity_donation/models.py:33
+msgid "institutions"
+msgstr "instytucje"
+
+#: charity_donation/models.py:40
+msgid "quantity"
+msgstr "ilość worków"
+
+#: charity_donation/models.py:43
+msgid "address"
+msgstr "adres"
+
+#: charity_donation/models.py:44
+msgid "phone number"
+msgstr "numer telefonu"
+
+#: charity_donation/models.py:45
+msgid "city"
+msgstr "miasto"
+
+#: charity_donation/models.py:46
+msgid "zip code"
+msgstr "kod pocztowy"
+
+#: charity_donation/models.py:47
+msgid "pick up date"
+msgstr "data odbioru"
+
+#: charity_donation/models.py:48
+msgid "pick up time"
+msgstr "godzina odbioru"
+
+#: charity_donation/models.py:49
+msgid "pick up comment"
+msgstr "dodatkowy komentarz"
+
+#: charity_donation/models.py:57
+msgid "user"
+msgstr "użytkownik"
+
+#: charity_donation/models.py:61
+msgid "donation"
+msgstr "darowizna"
+
+#: charity_donation/models.py:62
+msgid "donations"
+msgstr "darowizny"
+
+#: charity_donation/models.py:65
+msgid "Donation for"
+msgstr "Darowizna na rzecz"
 
 #: venv/lib/python3.7/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"
@@ -1255,3 +1344,7 @@ msgstr ""
 #: venv/lib/python3.7/site-packages/django/views/templates/default_urlconf.html:408
 msgid "Connect, get help, or contribute"
 msgstr ""
+
+#, python-brace-format
+#~ msgid "Donation for {self.institution}"
+#~ msgstr "Darowizna na rzecz {self.institution}"

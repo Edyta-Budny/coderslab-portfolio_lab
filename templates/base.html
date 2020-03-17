@@ -21,8 +21,11 @@
           <li class="logged-user">
             Witaj {{user.first_name}}
             <ul class="dropdown">
-              <li><a href="#">Profil</a></li>
+              <li><a href="{% url "profile" %}">Profil</a></li>
               <li><a href="#">Ustawienia</a></li>
+              {% if user.is_superuser %}
+              <li><a href="/admin/">Panel administracyjny</a></li>
+              {% endif %}
               <li><a href="{% url "logout" %}">Wyloguj</a></li>
             </ul>
           </li>
@@ -104,7 +107,11 @@
         </div>
       </div>
 
+      {% if user.is_authenticated %}
+      <a href="{% url "donation" %}" class="btn btn--large">Przekaż dary</a>
+      {% else %}
       <a href="{% url "register" %}" class="btn btn--large">Załóż konto</a>
+      {% endif %}
     </section>
 
     <section id="about-us" class="about-us">
