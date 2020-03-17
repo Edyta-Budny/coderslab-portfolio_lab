@@ -267,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function (qualifiedName, value) {
 
       let btnSummary = document.getElementById('btn next-summary');
       btnSummary.addEventListener("click", ev => {
-        let category = $('input[name="categories"]:checked').next().next();
+        let category = $('input[name="categories"]:checked').next().next().text();
         let quantity = $('input[name="quantity"]').val();
         let organization = $('input[name="organizations"]:checked').next().next().children(".title").text();
         let address = $('input[name="address"]').val();
