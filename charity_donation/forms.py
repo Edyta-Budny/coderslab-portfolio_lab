@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class DonationForm(forms.Form):
-    quantity = forms.IntegerField(label=_('Number of 60 liter bags'))
+    quantity = forms.IntegerField(min_value=1, label=_('Number of 60 liter bags'))
     address = forms.CharField(max_length=128, label=_('Address'))
     city = forms.CharField(max_length=128, label=_('City'))
     zip_code = forms.CharField(label=_('Postcode'))

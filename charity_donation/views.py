@@ -52,13 +52,14 @@ class AddDonationView(LoginRequiredMixin, View):
         pick_up_time = request.POST["pick_up_time"]
         pick_up_comment = request.POST["pick_up_comment"]
         institution = request.POST["institution_id"]
-        categories = request.POST["categories_id"]
+        categories_get = tuple(map(int, (request.POST.get("categories_id"))))
         user = request.user.id
         donation = Donation.objects.create(quantity=quantity, address=address, phone_number=phone_number,
                                            city=city, zip_code=zip_code, pick_up_date=pick_up_date,
                                            pick_up_time=pick_up_time, pick_up_comment=pick_up_comment,
                                            institution_id=institution, user_id=user)
-        donation.categories.add(categories)
+        for category in categories_get:
+            donation.categories.add(category)
         return render(request, "form-confirmation.html")
 
 

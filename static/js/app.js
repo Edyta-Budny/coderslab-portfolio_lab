@@ -267,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function (qualifiedName, value) {
 
       let btnSummary = document.getElementById('btn next-summary');
       btnSummary.addEventListener("click", ev => {
-        let category = $('input[name="categories"]:checked').next().next().text();
+        let category = $('input[name="categories"]:checked').next().next();
         let quantity = $('input[name="quantity"]').val();
         let organization = $('input[name="organizations"]:checked').next().next().children(".title").text();
         let address = $('input[name="address"]').val();
@@ -324,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function (qualifiedName, value) {
           'pick_up_time': $('input[name="pick_up_time"]').val(),
           'pick_up_comment': $('textarea[name="pick_up_comment"]').val(),
           'institution_id': $('input[name="organizations"]:checked').val(),
-          'categories_id': $('input[name="categories"]:checked').val(),
+          'categories_id': ($('input[name="categories"]:checked').map(function () {return this.value;}).get().join("")),
           'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
         }
       });
