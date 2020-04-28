@@ -53,12 +53,17 @@
           <li>
             <div class="col">
               <div class="title">Wsparłaś/eś "{{ donation.institution }}"</div>
+{#              <div class="text">Typ instytucji: {{ donation.institution.get_type_display }}</div>#}
               <div class="text">Przyczyniłaś/eś się do realizacji celu jakim jest {{ donation.institution.description }}</div>
             </div>
 
             <div class="col">
               <div class="text">Termin przekazania: {{ donation.pick_up_date|date:"d-m-Y" }}, godzina: {{ donation.pick_up_time }}</div>
               <div class="text">Liczba przekazanych worków: {{ donation.quantity }}</div>
+              <div class="text">Przekazano {{ form.is_taken }}</div>
+{#              <div>#}
+{#                <button class="btn btn--small btn--without-border" name="button" value={{ donation.id }} type="submit">Zamień</button>#}
+{#              </div>#}
             </div>
           </li>
           {% endfor %}

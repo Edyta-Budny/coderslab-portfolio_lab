@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Sum
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.views import View
 
 from charity_donation.forms import DonationForm
@@ -43,24 +43,28 @@ class AddDonationView(LoginRequiredMixin, View):
         )
 
     def post(self, request):
-        quantity = request.POST["quantity"]
-        address = request.POST["address"]
-        phone_number = request.POST["phone_number"]
-        city = request.POST["city"]
-        zip_code = request.POST["zip_code"]
-        pick_up_date = request.POST["pick_up_date"]
-        pick_up_time = request.POST["pick_up_time"]
-        pick_up_comment = request.POST["pick_up_comment"]
-        institution = request.POST["institution_id"]
-        categories_get = tuple(map(int, (request.POST.get("categories_id"))))
-        user = request.user.id
-        donation = Donation.objects.create(quantity=quantity, address=address, phone_number=phone_number,
-                                           city=city, zip_code=zip_code, pick_up_date=pick_up_date,
-                                           pick_up_time=pick_up_time, pick_up_comment=pick_up_comment,
-                                           institution_id=institution, user_id=user)
-        for category in categories_get:
-            donation.categories.add(category)
-        return render(request, "form-confirmation.html")
+        form = DonationForm(request.POST)
+        if form.is_valid():
+            quantity = request.POST["quantity"]
+            address = request.POST["address"]
+            phone_number = request.POST["phone_number"]
+            city = request.POST["city"]
+            zip_code = request.POST["zip_code"]
+            pick_up_date = request.POST["pick_up_date"]
+            pick_up_time = request.POST["pick_up_time"]
+            pick_up_comment = request.POST["pick_up_comment"]
+            institution = request.POST["institution_id"]
+            categories_checked = tuple(map(int, (request.POST.get("categories_id"))))
+            user = request.user.id
+            donation = Donation.objects.create(quantity=quantity, address=address, phone_number=phone_number,
+                                               city=city, zip_code=zip_code, pick_up_date=pick_up_date,
+                                               pick_up_time=pick_up_time, pick_up_comment=pick_up_comment,
+                                               institution_id=institution, user_id=user, is_taken=False)
+            for category in categories_checked:
+                donation.categories.add(category)
+            return render(request, "form-confirmation.html")
+        else:
+            return render(request, "form.html", {"form": form})
 
 
 class ConfirmationView(View):

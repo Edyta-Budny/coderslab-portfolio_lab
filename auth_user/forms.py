@@ -41,3 +41,7 @@ class LoginForm(forms.Form):
         user = authenticate(username=username, password=password)
         if user is None:
             raise forms.ValidationError(_("The email or password you entered isn't correct. Try entering it again."))
+
+
+class DonationTaken(forms.Form):
+    is_taken = forms.BooleanField(widget=forms.CheckboxInput)

@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 from django.views import View
 
-from auth_user.forms import LoginForm, RegisterForm
+from auth_user.forms import LoginForm, RegisterForm, DonationTaken
 from auth_user.models import User
 from charity_donation.models import Donation
 
@@ -54,5 +54,7 @@ class LogoutView(View):
 
 class ProfileView(View):
     def get(self, request):
-        donations = Donation.objects.filter(user=request.user)
-        return render(request, "profile.html", {"donations": donations})
+        form = DonationTaken()
+        donations = Donation.objects.filter(user=request.user).order_by("-is_taken")
+        return render(request, "profile.html", {"donations": donations, "form": form})
+

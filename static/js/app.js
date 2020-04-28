@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function (qualifiedName, value) {
        * Slide buttons
        */
       this.$buttonsContainer.addEventListener("click", e => {
-        if (e.target.classList.contains("btn")) {
+        if (e.target.classList.contains("btn"))  {
           this.changeSlide(e);
         }
       });
@@ -186,18 +186,36 @@ document.addEventListener("DOMContentLoaded", function (qualifiedName, value) {
     init() {
       this.events();
       this.updateForm();
+      // this.validateForm();
     }
 
     /**
      * All events that are happening in form
      */
     events() {
+
+      this.$form.validate({
+          rules: {
+          categories: {
+            required: true,
+            minLength: 1
+          }
+        },
+        messages: {
+          categories: {
+            minLength: "Musisz wybrac przynajmniej jedną kategorię"
+          }
+        }
+          }
+      );
+
       // Next step
       this.$next.forEach(btn => {
         btn.addEventListener("click", e => {
           e.preventDefault();
           this.currentStep++;
           this.updateForm();
+          // this.validateForm();
         });
       });
 
@@ -226,38 +244,39 @@ document.addEventListener("DOMContentLoaded", function (qualifiedName, value) {
       this.slides.forEach(slide => {
         slide.classList.remove("active");
 
-        if (slide.dataset.step == this.currentStep) {
+        if (slide.dataset.step == this.currentStep)
+        {
           slide.classList.add("active");
         }
       });
 
-      this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
-      this.$step.parentElement.hidden = this.currentStep >= 6;
+      this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 5;
+      this.$step.parentElement.hidden = this.currentStep >= 5;
 
 
       /**
        * show organizations based on checked categories in form
-        */
-      let btnFirst = document.getElementById('btn next-step');
-        btnFirst.addEventListener("click", ev => {
+       */
+      let btnFirst = document.getElementById('step-1');
+      btnFirst.addEventListener("click", ev => {
         let categories = $('input[name="categories"]:checked');
         let categoriesValues = [];
 
         for (let i = 0; i < categories.length; i++) {
           categoriesValues.push(categories[i].value);
+        }
+
+
+        let organizations = $('input[name="organizations"]');
+
+        for (let j = 0; j < organizations.length; j++) {
+          let organizationValue = organizations[j].classList;
+          if ((categoriesValues.every(categoryValues => organizationValue.contains(categoryValues))) === true) {
+            organizations[j].parentElement.parentElement.style.display = "block";
+          } else {
+            organizations[j].parentElement.parentElement.style.display = "none";
           }
-
-
-          let organizations = $('input[name="organizations"]');
-
-            for (let j = 0; j < organizations.length; j++) {
-              let organizationValue = organizations[j].classList;
-                if ((categoriesValues.every( categoryValues => organizationValue.contains(categoryValues))) === true) {
-                  organizations[j].parentElement.parentElement.style.display = "block";
-                } else {
-                  organizations[j].parentElement.parentElement.style.display = "none";
-                }
-            }
+        }
       });
 
 
@@ -265,9 +284,11 @@ document.addEventListener("DOMContentLoaded", function (qualifiedName, value) {
        *  get data from inputs and show them in summary
        */
 
-      let btnSummary = document.getElementById('btn next-summary');
+      let btnSummary = document.getElementById('step-4');
       btnSummary.addEventListener("click", ev => {
-        let category = $('input[name="categories"]:checked').next().next().text();
+        let category = $('input[name="categories"]:checked').map(function () {
+          return this.nextElementSibling.nextElementSibling.textContent;
+        }).get().join(", ");
         let quantity = $('input[name="quantity"]').val();
         let organization = $('input[name="organizations"]:checked').next().next().children(".title").text();
         let address = $('input[name="address"]').val();
@@ -278,38 +299,66 @@ document.addEventListener("DOMContentLoaded", function (qualifiedName, value) {
         let time = $('input[name="pick_up_time"]').val();
         let comment = $('textarea[name="pick_up_comment"]').val();
 
-        let bag_comment = " ";
+        let bag_comment = "";
 
-          if (quantity === 1) {
-            bag_comment = `${quantity} worek, a w nich: ${category}`
-          } if (1 < quantity < 5) {
-            bag_comment = `${quantity} worki, a w nich: ${category}`
-          } if (quantity > 4) {
-            bag_comment = `${quantity} worków, a w nich: ${category}`
-          }
+        if (quantity == 1) {
+          bag_comment = `${quantity} worek zawierający: ${category}`
+        }
+        if (quantity > 2 && quantity < 5) {
+          bag_comment = `${quantity} worki zawierające: ${category}`
+        }
+        if (quantity > 4) {
+          bag_comment = `${quantity} worków zawierających: ${category}`
+        }
 
-          let institution = `Dla ${organization}`;
-          $("#bags").text(bag_comment);
-          $("#institution").text(institution);
-          $("#address").text(address);
-          $("#city").text(city);
-          $("#zip_code").text(postcode);
-          $("#phone_number").text(phone);
-          $("#pick_up_date").text(data);
-          $("#pick_up_time").text(time);
-          $("#pick_up_comment").text(comment);
+        let institution = `Dla ${organization}`;
+        $("#bags").text(bag_comment);
+        $("#institution").text(institution);
+        $("#address").text(address);
+        $("#city").text(city);
+        $("#zip_code").text(postcode);
+        $("#phone_number").text(phone);
+        $("#pick_up_date").text(data);
+        $("#pick_up_time").text(time);
+        $("#pick_up_comment").text(comment);
       })
     }
+
+    /**
+     * Button form
+     *
+     * TODO: validation
+     */
+
+    // validateForm() {
+    //   $("#form").validate({
+    //     rules: {
+    //       categories: {
+    //         required: true,
+    //         minLength: 1
+    //       }
+    //     },
+    //     messages: {
+    //       categories: {
+    //         minLength: "Musisz wybrac przynajmniej jedną kategorię"
+    //       }
+    //     }
+    //       }
+    //   )
+    // }
 
     /**
      * Submit form
      *
      * TODO: validation, send data to server
      */
+
     submit(e) {
       e.preventDefault();
       this.currentStep++;
       this.updateForm();
+
+
       $.ajax({
         url: "http://127.0.0.1:8000/add_donation/",
         type: "post",
@@ -324,13 +373,16 @@ document.addEventListener("DOMContentLoaded", function (qualifiedName, value) {
           'pick_up_time': $('input[name="pick_up_time"]').val(),
           'pick_up_comment': $('textarea[name="pick_up_comment"]').val(),
           'institution_id': $('input[name="organizations"]:checked').val(),
-          'categories_id': ($('input[name="categories"]:checked').map(function () {return this.value;}).get().join("")),
+          'categories_id': ($('input[name="categories"]:checked').map(function () {
+            return this.value;
+          }).get().join("")),
           'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
         }
       });
-      location.href="/confirmation"
+      // location.href = "/confirmation"
     }
   }
+
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);

@@ -47,7 +47,7 @@ class Donation(models.Model):
     pick_up_date = models.DateField(verbose_name=_('pick up date'))
     pick_up_time = models.TimeField(verbose_name=_('pick up time'))
     pick_up_comment = models.TextField(verbose_name=_('pick up comment'))
-    is_taken = models.BooleanField(default=False)
+    is_taken = models.BooleanField()
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
